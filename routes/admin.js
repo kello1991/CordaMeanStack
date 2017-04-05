@@ -6,6 +6,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
 var Client = mongoose.model('client');
+var http = require("http");
+url = "http://localhost:10005/api/example/";
 
 
 router.get('/', function(req, res, next) {
@@ -84,4 +86,132 @@ router.get('/bank/client/:userId/:transactionId', function (req, res, next) {
     });
 });
 
+//get the name of the Node
+router.get('/me', function (req, res, next) {
+    var demande = "me";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            res.json(dataToGet);
+        });
+    });
+});
+//get the peers
+router.get('/peers', function (req, res, next) {
+    var demande = "peers";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            res.json(dataToGet);
+        });
+    });
+});
+
+//get all the issuers
+router.get('/issuers', function (req, res, next) {
+    var demande = "issuers";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            res.json(dataToGet);
+        });
+    });
+});
+//get all the notaries
+router.get('/notaries', function (req, res, next) {
+    var demande = "notaries";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            res.json(dataToGet);
+        });
+    });
+});
+
+// to
+//get all the notaries
+router.get('/balance', function (req, res, next) {
+    var demande = "balance";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            res.json(dataToGet);
+        });
+    });
+});
 module.exports = router;
