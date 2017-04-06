@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
 var Client = mongoose.model('client');
 var http = require("http");
-url = "http://localhost:10009/api/example/";
+url = "http://localhost:10005/api/example/";
 
 
 router.get('/', function(req, res, next) {
@@ -59,6 +59,8 @@ router.get('/bank/client/:userId/transactions', function (req, res, next) {
             if (element._id.toString() == clientId)
                 client = element;
         });
+        if (err)
+            res.json(err);
 
         res.json(client.transactions);
     });
@@ -79,8 +81,10 @@ router.get('/bank/client/:userId/:transactionId', function (req, res, next) {
             }
         });
         Bank.save(function (err) {
-            if (err)
+            if (err) {
                 console.log(err);
+                res.json(err);
+            }
         });
         res.json(client.transactions);
     });
@@ -107,6 +111,8 @@ router.get('/me', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(dataToGet);
         });
     });
@@ -132,10 +138,44 @@ router.get('/peers', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(dataToGet);
         });
     });
 });
+
+
+//get peer by name
+router.get('/peers/:name', function (req, res, next) {
+    var name = req.params.name;
+    var demande = "peers/" + name;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
+            res.json(dataToGet);
+        });
+    });
+});
+
+
 
 //get all the issuers
 router.get('/issuers', function (req, res, next) {
@@ -158,6 +198,8 @@ router.get('/issuers', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(dataToGet);
         });
     });
@@ -183,13 +225,46 @@ router.get('/notaries', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(dataToGet);
+        });
+    });
+});
+//get notary by name
+router.get('/notaries/:name', function (req, res, next) {
+    var name = req.params.name;
+    var demande = "notaries/" + name;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            if (err)
+                res.json(err);
+            else {
+                // finished transferring data
+                // dump the raw data
+                console.log(buffer);
+                console.log("\n");
+                dataToGet = JSON.parse(buffer);
+
+                res.json(dataToGet);
+            }
         });
     });
 });
 
 // to
-//get all the notaries
+//get the balance
 router.get('/balance', function (req, res, next) {
     console.log();
     var demande = "balance";
@@ -211,6 +286,8 @@ router.get('/balance', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(dataToGet);
         });
     });
@@ -239,6 +316,8 @@ router.get('/issue/:peerName/:amount', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             //dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(buffer);
         });
     });
@@ -269,8 +348,152 @@ router.get('/pay/:peerName/:amount', function (req, res, next) {
             console.log(buffer);
             console.log("\n");
             //dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
             res.json(buffer);
         });
     });
 });
+//exit amount
+router.get('/exit/:amount', function (req, res, next) {
+
+    var amout = req.params.amount;
+    console.log(amout);
+    var demande = "exit/" + amout;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+            res.json(buffer);
+        });
+    });
+});
+
+//get all the transactions of the node
+router.get('/vault', function (req, res, next) {
+
+
+    var demande = "vault";
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            console.log(err);
+            if (err) {
+
+                res.json(err);
+            }
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+
+            res.json(JSON.parse(buffer));
+        });
+    });
+});
+
+//get a transaction by his ID
+router.get('/vault/:id', function (req, res, next) {
+
+
+    var id = req.params.id;
+
+    var demande = "vault/" + id;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(JSON.parse(buffer));
+        });
+    });
+});
+
+
+//get an issuer by his name
+router.get('/issuers/:name', function (req, res, next) {
+
+
+    var id = req.params.name;
+
+    var demande = "issuers/" + id;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(JSON.parse(buffer));
+        });
+    });
+});
+
+
+
+
+
 module.exports = router;
