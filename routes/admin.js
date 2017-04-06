@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
 var Client = mongoose.model('client');
 var http = require("http");
-url = "http://localhost:10005/api/example/";
+url = "http://localhost:10009/api/example/";
 
 
 router.get('/', function(req, res, next) {
@@ -191,6 +191,7 @@ router.get('/notaries', function (req, res, next) {
 // to
 //get all the notaries
 router.get('/balance', function (req, res, next) {
+    console.log();
     var demande = "balance";
     url += demande;
     var request = http.get(url, function (response) {
@@ -211,6 +212,64 @@ router.get('/balance', function (req, res, next) {
             console.log("\n");
             dataToGet = JSON.parse(buffer);
             res.json(dataToGet);
+        });
+    });
+});
+router.get('/issue/:peerName/:amount', function (req, res, next) {
+
+    var peerName = req.params.peerName;
+    var amout = req.params.amount;
+    console.log(peerName, amout);
+    var demande = "issue/" + peerName + "/" + amout;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(buffer);
+        });
+    });
+});
+
+//pay a peer
+router.get('/pay/:peerName/:amount', function (req, res, next) {
+
+    var peerName = req.params.peerName;
+    var amout = req.params.amount;
+    console.log(peerName, amout);
+    var demande = "pay/" + peerName + "/" + amout;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(buffer);
         });
     });
 });
