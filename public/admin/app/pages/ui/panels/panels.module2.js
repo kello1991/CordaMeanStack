@@ -14,11 +14,12 @@
         .state('ui.panels', {
           url: '/panels',
           templateUrl: 'app/pages/ui/panels/panels.html',
-          controller: 'PanelsCtrl'  ,
+          controller: 'NotificationsPageCtrl',
+
           sidebarMeta: {
             order: 1100,
           },
-        })
+        });
   }
 
 })();

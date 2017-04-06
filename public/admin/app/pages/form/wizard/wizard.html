@@ -1,15 +1,30 @@
 <ba-wizard ng-controller="WizardCtrl">
 
                     <ba-wizard-step title="My identity" >
-                        <div ng-include="'app/pages/ui/panels/panels.html'"></div>
-                    </ba-wizard-step>
+                        <div class="row">
+                            <div class="">
+                                <div ba-panel ba-panel-class="xsmall-panel with-scroll light-text">
 
+                                    <p>{{me.me}}</p>
+
+                                </div>
+
+<<<<<<< HEAD
                     <ba-wizard-step title="Notaries" >
                         <div ng-include="'app/pages/ui/panels/notaries.html'">{{::peers}}</div>
                     </ba-wizard-step>
 
                     <ba-wizard-step title="Peers" >
                         <div ng-include="'app/pages/ui/panels/peers.html'">{{::identity}}</div>
+=======
+
+
+
+                            </div>
+                        </div>
+                        </div>
+>>>>>>> dash + network(not yed comp)
                     </ba-wizard-step>
+
 
                 </ba-wizard>
