@@ -5,52 +5,26 @@
         .controller('WizardCtrl', WizardCtrl);
 
     /** @ngInject */
-    function WizardCtrl($scope, $http) {
-<<<<<<< HEAD
+    function WizardCtrl($scope) {
         var vm = this;
 
-        var notaries = {};
-        var peers = {};
-        var identity = {};
-        $http.get('http://localhost:10009/api/example/notaries').then(function (response) {
-            notaries = response.data;
-            $scope.notaries = notaries[0];
-            console.log(notaries[0]);
-
-        });
-
-
-        $http.get('http://localhost:10009/api/example/peers').then(function (response) {
-            peers = response.data;
-            $scope.peers = peers;
-            console.log(peers);
-        });
-
+        console.log("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        vm.personalInfo = {};
+        vm.productInfo = {};
+        vm.shipment = {};
 
         $http.get('http://localhost:10009/api/example/me').then(function (response) {
-            identity = response.data;
-            $scope.identity = identity;
-
-            console.log(identity);
-
+            var notaries = response.data;
+            vm.notaries = notaries.me;
+            console.log(notaries);
 
         });
 
 
+        vm.arePersonalInfoPasswordsEqual = function () {
+            return vm.personalInfo.confirmPassword && vm.personalInfo.password == vm.personalInfo.confirmPassword;
+        };
     }
-
 
 })();
-=======
-        var balance = {};
-        $http.get('http://localhost:3000/admin/balance')
-            .then(function(response) {
-               // balance = response.data;
-                console.log('---------------');
-            });
-
-
-    }
-})
->>>>>>> dash + network(not yed comp)
 

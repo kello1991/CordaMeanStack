@@ -1,30 +1,26 @@
-<ba-wizard ng-controller="WizardCtrl">
+<div class="widgets">
 
-                    <ba-wizard-step title="My identity" >
-                        <div class="row">
-                            <div class="">
-                                <div ba-panel ba-panel-class="xsmall-panel with-scroll light-text">
-
-                                    <p>{{me.me}}</p>
-
-                                </div>
-
-<<<<<<< HEAD
-                    <ba-wizard-step title="Notaries" >
-                        <div ng-include="'app/pages/ui/panels/notaries.html'">{{::peers}}</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-title="Form Wizard" ba-panel-class="with-scroll">
+                <ba-wizard>
+                    <ba-wizard-step title="Identity" form="vm.personalInfoForm">
+                        <p>{{a.identity.me}}</p>
                     </ba-wizard-step>
-
-                    <ba-wizard-step title="Peers" >
-                        <div ng-include="'app/pages/ui/panels/peers.html'">{{::identity}}</div>
-=======
-
-
-
-                            </div>
-                        </div>
-                        </div>
->>>>>>> dash + network(not yed comp)
+                    <ba-wizard-step title="Notaries" form="vm.productInfoForm">
+                        <p ng-repeat="notary in a.notaries">
+                            {{notary}}
+                        </p>
                     </ba-wizard-step>
+                    <ba-wizard-step title="Peers"  form="vm.addressForm">
+                        <P ng-repeat="peer in a.peers">
+                            {{peer}}
+                        </P>
 
-
+                    </ba-wizard-step>
                 </ba-wizard>
+            </div>
+        </div>
+    </div>
+
+</div>
