@@ -1,16 +1,15 @@
-
-                <ba-wizard>
+<ba-wizard ng-controller="WizardCtrl">
 
                     <ba-wizard-step title="My identity" >
                         <div ng-include="'app/pages/ui/panels/panels.html'"></div>
                     </ba-wizard-step>
 
                     <ba-wizard-step title="Notaries" >
-                        <div ng-include="'app/pages/ui/panels/panels.html'"></div>
+                        <div ng-include="'app/pages/ui/panels/notaries.html'">{{::peers}}</div>
                     </ba-wizard-step>
 
                     <ba-wizard-step title="Peers" >
-                        <div ng-include="'app/pages/ui/panels/panels.html'"></div>
+                        <div ng-include="'app/pages/ui/panels/peers.html'">{{::identity}}</div>
                     </ba-wizard-step>
 
                 </ba-wizard>

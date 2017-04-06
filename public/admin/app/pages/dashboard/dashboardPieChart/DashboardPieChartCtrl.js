@@ -9,15 +9,21 @@
       .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil) {
-    var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
-    $scope.charts = [ {
-      color: pieColor,
-      description: 'Purchases',
-      stats: '$ 89,745',
-      icon: 'money',
+  function DashboardPieChartCtrl($scope, $http, $timeout, baConfig, baUtil) {
+
+
+      var balance = {};
+      var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
+      $http.get('http://localhost:10009/api/example/balance').then(function (response) {
+          balance = response.data;
+          $scope.chart = {
+              color: pieColor,
+              description: 'Purchases',
+              stats: '$ ' + balance.USD.quantity,
+              icon: 'money',
     }
-    ];
+          ;
+      });
 
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;
