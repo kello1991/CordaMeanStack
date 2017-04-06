@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
 var Client = mongoose.model('client');
 var http = require("http");
+
 url = "http://localhost:10005/api/example/";
 
 
@@ -215,6 +216,8 @@ router.get('/notaries', function (req, res, next) {
             dataToGet,
             route;
 
+        console.log(response.data);
+
         response.on("data", function (chunk) {
             buffer += chunk;
         });
@@ -223,18 +226,17 @@ router.get('/notaries', function (req, res, next) {
             // finished transferring data
             // dump the raw data
             console.log(buffer);
-            console.log("\n");
-            dataToGet = JSON.parse(buffer);
+            //dataToGet = JSON.parse(buffer);
             if (err)
                 res.json(err);
-            res.json(dataToGet);
+            res.json(buffer);
         });
     });
 });
 //get notary by name
 router.get('/notaries/:name', function (req, res, next) {
     var name = req.params.name;
-    var demande = "notaries/" + name;
+    var demande = "notaries//" + name;
     url += demande;
     var request = http.get(url, function (response) {
         // data is streamed in chunks from the server

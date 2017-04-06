@@ -6,7 +6,6 @@
 
     /** @ngInject */
     function WizardCtrl($scope, $http) {
-<<<<<<< HEAD
         var vm = this;
 
         var notaries = {};
@@ -33,7 +32,6 @@
 
             console.log(identity);
 
-
         });
 
 
@@ -41,7 +39,7 @@
 
 
 })();
-=======
+/*
         var balance = {};
         $http.get('http://localhost:3000/admin/balance')
             .then(function(response) {
@@ -52,5 +50,4 @@
 
     }
 })
->>>>>>> dash + network(not yed comp)
-
+*/
