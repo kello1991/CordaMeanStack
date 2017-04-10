@@ -109,15 +109,15 @@
           {{$item.label}}
         </ui-select-match>
         <ui-select-choices
-            repeat="withDeleteItem in selectpickerVm.withDeleteSelectItems | filter: $select.search">
+                repeat="withDeleteItem in selectpickerVm.withDeleteSelectItems | filter: $select.search">
           {{withDeleteItem.label}}
         </ui-select-choices>
       </ui-select>
       <span class="input-group-btn">
         <button type="button" ng-click="selectpickerVm.withDeleteItem.selected = undefined"
-               class="btn btn-info">
+                class="btn btn-info">
           <span class="ion-shuffle"></span><i><u>GO!</u></i></span>
-        </button>
+      </button>
       </span>
     </div>
   </div>

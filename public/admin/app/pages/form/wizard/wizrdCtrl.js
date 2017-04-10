@@ -13,7 +13,7 @@
         vm.productInfo = {};
         vm.shipment = {};
 
-        $http.get('http://localhost:10009/api/example/me').then(function (response) {
+        $http.get('http://localhost:10005/api/example/me').then(function (response) {
             var notaries = response.data;
             vm.notaries = notaries.me;
             console.log(notaries);

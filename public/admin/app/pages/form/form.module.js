@@ -20,6 +20,16 @@
             sidebarMeta: {
                 order: 0,
             }
-        });
+        })
+        .state('form.wizard1',
+            {
+                url: '/wizard1',
+                templateUrl: 'app/pages/form/wizard1/wizard.html',
+                controller:'WizardCtrl',
+                title: 'Network',
+                sidebarMeta: {
+                    order: 0,
+                }
+            });
   }
 })();

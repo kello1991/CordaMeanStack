@@ -23,7 +23,7 @@
           },
         }).state('tables.basic', {
           url: '/basic',
-          templateUrl: 'app/pages/tables/basic/tables.html',
+          templateUrl: 'app/pages/ui/tabs/mainTabs.html',
           title: 'Cash',
           sidebarMeta: {
               order: 100,

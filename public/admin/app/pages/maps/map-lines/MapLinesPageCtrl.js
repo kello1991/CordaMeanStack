@@ -9,9 +9,9 @@
         .controller('MapLinesPageCtrl', MapLinesPageCtrl);
 
     /** @ngInject */
-    function MapLinesPageCtrl(baConfig, $timeout, layoutPaths,$http) {
+    function MapLinesPageCtrl($scope,baConfig, $timeout, layoutPaths,$http) {
         $scope.a={};
-        $http.get('http://localhost:10009/api/example/me').then(function (response) {
+        $http.get('http://localhost:10005/api/example/me').then(function (response) {
             var identity = response.data;
             $scope.a.identity = identity;
 
@@ -19,7 +19,7 @@
 
 
         });
-        $http.get('http://localhost:10009/api/example/notaries').then(function (response) {
+        $http.get('http://localhost:10005/api/example/notaries').then(function (response) {
             var notaries = response.data;
             $scope.a.notaries = notaries;
 
@@ -27,7 +27,7 @@
 
 
         });
-        $http.get('http://localhost:10009/api/example/peers').then(function (response) {
+        $http.get('http://localhost:10005/api/example/peers').then(function (response) {
             var peers = response.data;
             $scope.a.peers = peers;
 

@@ -1,12 +1,12 @@
 
-<div class="row pie-charts">
+<div class="row pie-charts" style="color: white">
 
   <div ba-panel>
     <div class="pie-chart-item">
-      <div class="chart" rel="{{ ::chart.color }}" data-percent="60"> <span class="percent"></span> </div>
+      <div class="chart" rel="{{ ::chart.color }}" data-percent="{{ ::chart.quantity }}"> <span class="percent" style="color: white"></span> </div>
       <div class="description">
-        <div>{{ ::chart.description }}</div>
-        <div class="description-stats">{{ ::chart.quantity }} {{ ::chart.token }}</div>
+        <div style="color: white">{{ ::chart.description }}</div>
+        <div class="description-stats" style="color: white">{{ ::chart.quantity }} {{ ::chart.token }}</div>
       </div>
       <i class="chart-icon i-{{ ::chart.icon }}"></i>
     </div>

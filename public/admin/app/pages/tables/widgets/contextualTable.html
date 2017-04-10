@@ -1,6 +1,6 @@
 <div class="horizontal-scroll">
   <div class="form-group select-page-size-wrap ">
-    <label>Rows on page
+    <label style="color: white" >Rows on page
       <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
               ng-model="smartTablePageSize" ng-options="i for i in [5,10,15,20,25]">
       </select>
@@ -9,9 +9,9 @@
   <table class="table" st-table="smartTableData">
     <thead>
     <tr class="sortable">
-      <th st-sort="firstName">Issuer/Currency</th>
-      <th st-sort="lastName">Local currency</th>
-      <th st-sort="username">USD Equiv</th>
+      <th st-sort="firstName" style="color: white">Issuer/Currency</th>
+      <th st-sort="lastName" style="color: white">Local currency</th>
+      <th st-sort="username" style="color: white">USD Equiv</th>
     </tr>
     <tr>
       <th><input st-search="firstName" placeholder="Search Issuer/Currency" class="input-sm form-control search-input"
@@ -24,9 +24,9 @@
     </thead>
     <tbody>
     <tr ng-repeat="item in smartTableData">
-      <td>{{item.firstName}}</td>
-      <td>{{item.lastName}}</td>
-      <td>{{item.username}}</td>
+      <td style="color: white">{{item.firstName}}</td>
+      <td style="color: white">{{item.lastName}}</td>
+      <td style="color: white">{{item.username}}</td>
     </tr>
     </tbody>
     <tfoot>
