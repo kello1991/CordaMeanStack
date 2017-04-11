@@ -2,18 +2,18 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div ba-panel ba-panel-title="Form Wizard" ba-panel-class="with-scroll">
+            <div ba-panel ba-panel-title="" ba-panel-class="with-scroll">
                 <ba-wizard>
-                    <ba-wizard-step title="Identity" form="vm.personalInfoForm">
-                        <p>{{a.identity.me}}</p>
+                    <ba-wizard-step title="Identity">
+                        <p style="color: white">{{a.identity.me}}</p>
                     </ba-wizard-step>
-                    <ba-wizard-step title="Notaries" form="vm.productInfoForm">
-                        <p ng-repeat="notary in a.notaries">
+                    <ba-wizard-step title="Notaries">
+                        <p ng-repeat="notary in a.notaries" style="color: white">
                             {{notary}}
                         </p>
                     </ba-wizard-step>
-                    <ba-wizard-step title="Peers"  form="vm.addressForm">
-                        <P ng-repeat="peer in a.peers">
+                    <ba-wizard-step title="Peers">
+                        <P ng-repeat="peer in a.peers" style="color: white">
                             {{peer}}
                         </P>
 

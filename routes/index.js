@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
-var Client = mongoose.model('client');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('home.html');

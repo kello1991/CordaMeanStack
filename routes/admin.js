@@ -3,93 +3,134 @@
  */
 var express = require('express');
 var router = express.Router();
+var bodyparser = require("body-parser");
 var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
-var Client = mongoose.model('client');
 var http = require("http");
-
-url = "http://localhost:10005/api/example/";
-
+var bycrypt = require("bcrypt-nodejs");
+var jwt = require("jsonwebtoken");
+var auth = require("./auth.js");
+url = "http://localhost:10009/api/example/";
 
 router.get('/', function(req, res, next) {
     res.sendFile(req.app.get('admin_path') + 'index.html');
     console.log(req.path);
 });
-router.get('/bank', function (req, res, next) {
-    Bank.find(function (err) {
-        if (err) {
-            console.log(err);
-            res.sendFile(req.app.get('admin_path') + '404.html');
+
+router.get('/login', function(req, res, next) {
+    res.sendFile(req.app.get('admin_path') + 'auth.html');
+    console.log(req.path);
+});
+
+//add new node
+router.post('/addbank', function (req, res, next) {
+
+    var pass = bycrypt.hashSync(req.body.password,bycrypt.genSaltSync(10))
+
+
+  var bank=  {
+      _id:new mongoose.mongo.ObjectId(),
+      corda_id: req.body.corda_id,
+        name: req.body.name,
+        address: req.body.address,
+        port:req.body.port,
+        tel: req.body.tel,
+        username:req.body.username,
+        password:pass,
+        transactions:[]
+  }
+
+    var bankModel= new Bank(bank);
+    bankModel.save(function(err){
+        if (err){
+            res.json(err);}
+          else {
+            res.json(bankModel._id);
+
+            }});
+});
+
+router.post('/login',function (req,res) {
+    Bank.findOne({username:req.body.username},function (err,bank) {
+        if(err){
+            res.send(err);
+        }
+        if(!bank)
+        res.status(401).json("unauthorized");
+        else {
+            if(bycrypt.compareSync(req.body.password,bank.password)){
+              var token = jwt.sign(bank,'s3cr3t');
+                res.redirect("/admin");
+            }else {
+               res.json("");
+
+            }
         }
     })
-        .then(function (doc) {
-            res.json(doc);
-        });
-});
-router.get('/bank/clients', function (req, res, next) {
-    var name = 'NodeA';
-    Bank.findOne({corda_id: new RegExp('^' + name + '$', "i")}, function (err, doc) {
-        res.json(doc.clients);
-    });
-});
+    
+})
 
-//get client by id
-router.get('/bank/client/:userId', function (req, res, next) {
-    var clientId = req.params.userId;
-    var name = 'NodeA';
-    var client = {};
-    Bank.findOne({corda_id: new RegExp('^' + name + '$', "i")}, function (err, doc) {
-        var item;
-        doc.clients.forEach(function (element) {
-            if (element._id.toString() == clientId)
-                client = element;
-        });
 
-        res.json(client);
-    });
-
-});
-//get all transactions
-router.get('/bank/client/:userId/transactions', function (req, res, next) {
-    var clientId = req.params.userId;
-    var name = 'NodeA';
-    var client = {};
-    Bank.findOne({corda_id: new RegExp('^' + name + '$', "i")}, function (err, doc) {
-        var item;
-        doc.clients.forEach(function (element) {
-            if (element._id.toString() == clientId)
-                client = element;
-        });
+//get a bank
+router.get('/bank/:bankId',function(req, res) {
+    Bank.findById(req.params.bankId, function(err, bank) {
         if (err)
-            res.json(err);
-
-        res.json(client.transactions);
+            res.send(err);
+        res.json(bank);
     });
 });
 
-router.get('/bank/client/:userId/:transactionId', function (req, res, next) {
-    var clientId = req.params.userId;
-    var name = 'NodeA';
-    var client = {};
-    var transactionId = req.params.transactionId;
-    console.log(transactionId);
-    Bank.findOne({corda_id: new RegExp('^' + name + '$', "i")}, function (err, doc) {
-        var item;
-        doc.clients.forEach(function (element) {
-            if (element._id.toString() == clientId) {
-                element.transactions.push(transactionId);
-                client = element;
+//get all the banks
+router.get('/bank',function(req, res) {
+    Bank.find(function(err, banks) {
+        if (err)
+            res.send(err);
+        res.json(banks);
+    });
+});
+
+//add transaction to bank
+router.put('/bank/:bankId/:transaction',function(req, res) {
+    Bank.findById(req.params.bankId,function(err, bank) {
+        bank.transactions.push(req.params.transaction);
+        bank.save(function (err) {
+            if(err){
+                res.json(err)
+            }else {
+                res.json(bank)
             }
         });
-        Bank.save(function (err) {
-            if (err) {
-                console.log(err);
+
+
+    });
+});
+
+//update a bank
+router.put('/bank/:bankId',function(req, res) {
+    Bank.findById(req.params.bankId,function(err, bank) {
+        bank.name=req.body.name;
+        bank.address=req.body.address;
+        bank.username= req.body.username;
+        bank.password=req.body.password;
+        bank.save(function (err) {
+            if(err){
                 res.json(err);
+            }else {
+                res.json(bank);
             }
         });
-        res.json(client.transactions);
     });
 });
+
+//get all transactions
+router.get('/bank/:bankId/transactions',function(req, res) {
+    Bank.findById(req.params.bankId, function(err, bank) {
+        if (err)
+            res.send(err);
+        res.json(bank.transactions);
+    });
+});
+
 
 //get the name of the Node
 router.get('/me', function (req, res, next) {
@@ -205,6 +246,7 @@ router.get('/issuers', function (req, res, next) {
         });
     });
 });
+
 //get all the notaries
 router.get('/notaries', function (req, res, next) {
     var demande = "notaries";
@@ -233,6 +275,7 @@ router.get('/notaries', function (req, res, next) {
         });
     });
 });
+
 //get notary by name
 router.get('/notaries/:name', function (req, res, next) {
     var name = req.params.name;
@@ -493,9 +536,4 @@ router.get('/issuers/:name', function (req, res, next) {
         });
     });
 });
-
-
-
-
-
 module.exports = router;

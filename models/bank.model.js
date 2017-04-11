@@ -5,20 +5,25 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Bank = new Schema({
-    corda_id: String,
+    corda_id:{
+        type: String,
+        require:true,
+    },
     name: String,
-    address: String,
+    address:String,
+    port:String,
     tel: String,
-    clients: [
-        {
-            username: String,
-            password: String,
-            email: String,
-            firstname: String,
-            lastname: String,
-            transactions: [String]
-        }
-    ]
+    username:{
+        type: String,
+        require:true,
+        unique:true
+    },
+    password:{
+        type: String,
+        require:true
+    },
+    transactions:[String]
 });
 
 module.exports = mongoose.model('bank', Bank);
+
