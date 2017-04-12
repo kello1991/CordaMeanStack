@@ -10,7 +10,8 @@ var http = require("http");
 var bycrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 var auth = require("./auth.js");
-url = "http://localhost:10009/api/example/";
+port = "";
+url = "http://localhost:"+port+"/api/example/";
 
 //root route
 router.get('/', function(req, res, next) {
@@ -64,6 +65,8 @@ router.post('/login',function (req,res) {
             if(bycrypt.compareSync(req.body.password,bank.password)){
               var token = jwt.sign(bank,'s3cr3t');
               console.log(token);
+              console.log(bank.port);
+              port=bank.port;
                 res.redirect("/admin");
             }else {
                res.json("");
@@ -136,6 +139,7 @@ router.get('/bank/:bankId/transactions',function(req, res) {
 
 //get the name of the Node
 router.get('/me', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var demande = "me";
     url += demande;
     var request = http.get(url, function (response) {
@@ -160,11 +164,12 @@ router.get('/me', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get the peers
 router.get('/peers', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var demande = "peers";
     url += demande;
     var request = http.get(url, function (response) {
@@ -189,11 +194,12 @@ router.get('/peers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get peer by name
 router.get('/peers/:name', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var name = req.params.name;
     var demande = "peers/" + name;
     url += demande;
@@ -219,11 +225,12 @@ router.get('/peers/:name', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the issuers
 router.get('/issuers', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var demande = "issuers";
     url += demande;
     var request = http.get(url, function (response) {
@@ -248,11 +255,12 @@ router.get('/issuers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the notaries
 router.get('/notaries', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var demande = "notaries";
     url += demande;
     var request = http.get(url, function (response) {
@@ -278,11 +286,12 @@ router.get('/notaries', function (req, res, next) {
             res.json(buffer);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get notary by name
 router.get('/notaries/:name', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
     var name = req.params.name;
     var demande = "notaries//" + name;
     url += demande;
@@ -311,12 +320,12 @@ router.get('/notaries/:name', function (req, res, next) {
             }
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get the balance
 router.get('/balance', function (req, res, next) {
-    console.log();
+    url = "http://localhost:"+port+"/api/example/";
     var demande = "balance";
     url += demande;
     var request = http.get(url, function (response) {
@@ -341,12 +350,13 @@ router.get('/balance', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //issue money to a peer
 router.get('/issue/:peerName/:amount', function (req, res, next) {
 
+    url = "http://localhost:"+port+"/api/example/";
     var peerName = req.params.peerName;
     var amout = req.params.amount;
     console.log(peerName, amout);
@@ -374,11 +384,12 @@ router.get('/issue/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //pay a peer
 router.get('/pay/:peerName/:amount', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
 
     var peerName = req.params.peerName;
     var amout = req.params.amount;
@@ -407,11 +418,12 @@ router.get('/pay/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //exit amount
 router.get('/exit/:amount', function (req, res, next) {
+    url = "http://localhost:"+port+"/api/example/";
 
     var amout = req.params.amount;
     console.log(amout);
@@ -441,12 +453,12 @@ router.get('/exit/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the transactions of the node
 router.get('/vault', function (req, res, next) {
-
+    url = "http://localhost:"+port+"/api/example/";
 
     var demande = "vault";
     url += demande;
@@ -471,12 +483,12 @@ router.get('/vault', function (req, res, next) {
             res.status(200).json(JSON.parse(buffer));}
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get a transaction by his ID
 router.get('/vault/:id', function (req, res, next) {
-
+    url = "http://localhost:"+port+"/api/example/";
 
     var id = req.params.id;
 
@@ -507,13 +519,13 @@ router.get('/vault/:id', function (req, res, next) {
             res.json(JSON.parse(buffer));
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 //get an issuer by his name
 router.get('/issuers/:name', function (req, res, next) {
 
-
+    url = "http://localhost:"+port+"/api/example/";
     var id = req.params.name;
 
     var demande = "issuers/" + id;
@@ -543,7 +555,7 @@ router.get('/issuers/:name', function (req, res, next) {
             res.json(JSON.parse(buffer));
         });
     });
-    url = "http://localhost:10009/api/example/";
+   url = "http://localhost:"+port+"/api/example/";
 });
 
 module.exports = router;
