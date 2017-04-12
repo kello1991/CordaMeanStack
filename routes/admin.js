@@ -158,6 +158,7 @@ router.get('/me', function (req, res, next) {
             res.json(dataToGet);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 //get the peers
 router.get('/peers', function (req, res, next) {
@@ -185,6 +186,7 @@ router.get('/peers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 
@@ -215,6 +217,7 @@ router.get('/peers/:name', function (req, res, next) {
             res.json(dataToGet);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 
@@ -245,6 +248,7 @@ router.get('/issuers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 //get all the notaries
@@ -274,6 +278,7 @@ router.get('/notaries', function (req, res, next) {
             res.json(buffer);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 //get notary by name
@@ -306,6 +311,7 @@ router.get('/notaries/:name', function (req, res, next) {
             }
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 // to
@@ -336,6 +342,7 @@ router.get('/balance', function (req, res, next) {
             res.json(dataToGet);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 router.get('/issue/:peerName/:amount', function (req, res, next) {
 
@@ -366,6 +373,7 @@ router.get('/issue/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 //pay a peer
@@ -398,6 +406,7 @@ router.get('/pay/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 //exit amount
 router.get('/exit/:amount', function (req, res, next) {
@@ -430,6 +439,7 @@ router.get('/exit/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 //get all the transactions of the node
@@ -450,20 +460,16 @@ router.get('/vault', function (req, res, next) {
         });
 
         response.on("end", function (err) {
-            console.log(err);
             if (err) {
 
                 res.json(err);
-            }
-            // finished transferring data
-            // dump the raw data
-            console.log(buffer);
-            console.log("\n");
-            //dataToGet = JSON.parse(buffer);
+            }else{
 
-            res.json(JSON.parse(buffer));
+                console.log(buffer)
+            res.status(200).json(JSON.parse(buffer));}
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 //get a transaction by his ID
@@ -499,6 +505,7 @@ router.get('/vault/:id', function (req, res, next) {
             res.json(JSON.parse(buffer));
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 
 
@@ -535,5 +542,6 @@ router.get('/issuers/:name', function (req, res, next) {
             res.json(JSON.parse(buffer));
         });
     });
+    url = "http://localhost:10009/api/example/";
 });
 module.exports = router;

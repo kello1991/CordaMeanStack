@@ -1,3 +1,4 @@
+
 <div class="horizontal-scroll">
   <div class="form-group select-page-size-wrap ">
     <label style="color: white">Rows on page
@@ -34,14 +35,15 @@
     </tr>
     </thead>
     <tbody>
+
     <tr ng-repeat="item in smartTableData">
-      <td class="table-id"   style="color: white">{{item.id}}</td>
-      <td   style="color: white">{{item.firstName}}</td>
-      <td   style="color: white">{{item.lastName}}</td>
-      <td   style="color: white">{{item.username}}</td>
-      <td   style="color: white">{{item.email}}</td>
-      <td   style="color: white">{{item.age}}</td>
-      <td  style="color: white">{{item.total}}</td>
+      <td class="table-id"   style="color: white">{{item.idTransaction }}</td>
+      <td   style="color: white">{{item.inputi}}</td>
+      <td   style="color: white">{{item.outputi}}</td>
+      <td   style="color: white">{{item.inputParty}}</td>
+      <td   style="color: white">{{item.outputParty}}</td>
+      <td   style="color: white">{{item.commandType}}</td>
+      <td  style="color: white">{{item.totalValue}}</td>
     </tr>
     </tbody>
     <tfoot>

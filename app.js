@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 //Set up default mongoose connection
 var mongoDB = 'mongodb://esprit:esprit@ds141128.mlab.com:41128/esprit';
+//var mongoDB = 'mongodb://localhost:27017/esprit';
 mongoose.connect(mongoDB);
 var bankModule = require('./models/bank.model');
 
