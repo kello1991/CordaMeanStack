@@ -31,9 +31,9 @@ router.post('/addbank', function (req, res, next) {
     var pass = bycrypt.hashSync(req.body.password,bycrypt.genSaltSync(10))
 
 
-  var bank=  {
-      _id:new mongoose.mongo.ObjectId(),
-      corda_id: req.body.corda_id,
+    var bank=  {
+        _id:new mongoose.mongo.ObjectId(),
+        corda_id: req.body.corda_id,
         name: req.body.name,
         address: req.body.address,
         port:req.body.port,
@@ -41,16 +41,16 @@ router.post('/addbank', function (req, res, next) {
         username:req.body.username,
         password:pass,
         transactions:[]
-  }
+    }
 
     var bankModel= new Bank(bank);
     bankModel.save(function(err){
         if (err){
             res.json(err);}
-          else {
+        else {
             res.json(bankModel._id);
 
-            }});
+        }});
 });
 
 //login
@@ -60,21 +60,21 @@ router.post('/login',function (req,res) {
             res.send(err);
         }
         if(!bank)
-        res.status(401).json("unauthorized");
+            res.status(401).json("unauthorized");
         else {
             if(bycrypt.compareSync(req.body.password,bank.password)){
-              var token = jwt.sign(bank,'s3cr3t');
-              console.log(token);
-              console.log(bank.port);
-              port=bank.port;
+                var token = jwt.sign(bank,'s3cr3t');
+                console.log(token);
+                console.log(bank.port);
+                port=bank.port;
                 res.redirect("/admin");
             }else {
-               res.json("");
+                res.json("");
 
             }
         }
     })
-    
+
 })
 
 //get a bank
@@ -164,7 +164,7 @@ router.get('/me', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get the peers
@@ -194,7 +194,7 @@ router.get('/peers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get peer by name
@@ -225,7 +225,7 @@ router.get('/peers/:name', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the issuers
@@ -255,7 +255,7 @@ router.get('/issuers', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the notaries
@@ -286,7 +286,7 @@ router.get('/notaries', function (req, res, next) {
             res.json(buffer);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get notary by name
@@ -320,7 +320,7 @@ router.get('/notaries/:name', function (req, res, next) {
             }
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get the balance
@@ -350,7 +350,7 @@ router.get('/balance', function (req, res, next) {
             res.json(dataToGet);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //issue money to a peer
@@ -384,7 +384,7 @@ router.get('/issue/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //pay a peer
@@ -418,7 +418,7 @@ router.get('/pay/:peerName/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //exit amount
@@ -453,7 +453,7 @@ router.get('/exit/:amount', function (req, res, next) {
             res.json(buffer);
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get all the transactions of the node
@@ -480,10 +480,10 @@ router.get('/vault', function (req, res, next) {
             }else{
 
                 console.log(buffer)
-            res.status(200).json(JSON.parse(buffer));}
+                res.status(200).json(JSON.parse(buffer));}
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get a transaction by his ID
@@ -519,7 +519,7 @@ router.get('/vault/:id', function (req, res, next) {
             res.json(JSON.parse(buffer));
         });
     });
-   url = "http://localhost:"+port+"/api/example/";
+    url = "http://localhost:"+port+"/api/example/";
 });
 
 //get an issuer by his name
@@ -529,6 +529,77 @@ router.get('/issuers/:name', function (req, res, next) {
     var id = req.params.name;
 
     var demande = "issuers/" + id;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(JSON.parse(buffer));
+        });
+    });
+    url = "http://localhost:"+port+"/api/example/";
+});
+//get peer by id
+router.get('/peers/:id', function (req, res, next) {
+
+    url = "http://localhost:10009/api/example/";
+    var id = req.params.id;
+
+    var demande = "peers/hash" + id;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            if (err) {
+                console.log(err);
+                res.json(err);
+            }
+
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            res.json(JSON.parse(buffer));
+        });
+    });
+    url = "http://localhost:10009/api/example/";
+});
+
+//get the identity of node
+router.get('/identity', function (req, res, next) {
+
+    url = "http://localhost:"+port+"/api/example/";
+
+
+    var demande = "identity";
     url += demande;
     var request = http.get(url, function (response) {
         // data is streamed in chunks from the server
