@@ -12,11 +12,13 @@ var jwt = require("jsonwebtoken");
 var auth = require("./auth.js");
 url = "http://localhost:10009/api/example/";
 
+//root route
 router.get('/', function(req, res, next) {
     res.sendFile(req.app.get('admin_path') + 'index.html');
     console.log(req.path);
 });
 
+//get login page
 router.get('/login', function(req, res, next) {
     res.sendFile(req.app.get('admin_path') + 'auth.html');
     console.log(req.path);
@@ -50,6 +52,7 @@ router.post('/addbank', function (req, res, next) {
             }});
 });
 
+//login
 router.post('/login',function (req,res) {
     Bank.findOne({username:req.body.username},function (err,bank) {
         if(err){
@@ -60,6 +63,7 @@ router.post('/login',function (req,res) {
         else {
             if(bycrypt.compareSync(req.body.password,bank.password)){
               var token = jwt.sign(bank,'s3cr3t');
+              console.log(token);
                 res.redirect("/admin");
             }else {
                res.json("");
@@ -69,7 +73,6 @@ router.post('/login',function (req,res) {
     })
     
 })
-
 
 //get a bank
 router.get('/bank/:bankId',function(req, res) {
@@ -131,7 +134,6 @@ router.get('/bank/:bankId/transactions',function(req, res) {
     });
 });
 
-
 //get the name of the Node
 router.get('/me', function (req, res, next) {
     var demande = "me";
@@ -160,6 +162,7 @@ router.get('/me', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
+
 //get the peers
 router.get('/peers', function (req, res, next) {
     var demande = "peers";
@@ -188,7 +191,6 @@ router.get('/peers', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
-
 
 //get peer by name
 router.get('/peers/:name', function (req, res, next) {
@@ -219,8 +221,6 @@ router.get('/peers/:name', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
-
-
 
 //get all the issuers
 router.get('/issuers', function (req, res, next) {
@@ -314,7 +314,6 @@ router.get('/notaries/:name', function (req, res, next) {
     url = "http://localhost:10009/api/example/";
 });
 
-// to
 //get the balance
 router.get('/balance', function (req, res, next) {
     console.log();
@@ -344,6 +343,8 @@ router.get('/balance', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
+
+//issue money to a peer
 router.get('/issue/:peerName/:amount', function (req, res, next) {
 
     var peerName = req.params.peerName;
@@ -408,6 +409,7 @@ router.get('/pay/:peerName/:amount', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
+
 //exit amount
 router.get('/exit/:amount', function (req, res, next) {
 
@@ -508,7 +510,6 @@ router.get('/vault/:id', function (req, res, next) {
     url = "http://localhost:10009/api/example/";
 });
 
-
 //get an issuer by his name
 router.get('/issuers/:name', function (req, res, next) {
 
@@ -544,4 +545,5 @@ router.get('/issuers/:name', function (req, res, next) {
     });
     url = "http://localhost:10009/api/example/";
 });
+
 module.exports = router;
