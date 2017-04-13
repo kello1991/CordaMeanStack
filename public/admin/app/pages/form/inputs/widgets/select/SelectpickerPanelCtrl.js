@@ -13,7 +13,7 @@
 
     var vm = this;
     vm.disabled = undefined;
-
+      console.log("hello from select");
 
     vm.standardItem = {};
     vm.standardSelectItems = [

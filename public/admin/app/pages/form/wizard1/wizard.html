@@ -1,20 +1,35 @@
+
 <div class="widgets">
 
     <div class="row">
         <div class="col-md-12">
             <div ba-panel ba-panel-title="Make new transaction" ba-panel-class="with-scroll">
                 <ba-wizard>
+                    <ba-wizard-step title="Command Type"  form="vm.addressForm">
+                        <form name="vm.addressForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="productName">Command Type</label>
+                                        <select class="" ng-change="change2(commandType)" ng-model="commandType" ng-options="item for item in itemsType">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ba-wizard-step>
                     <ba-wizard-step title="Receiver" form="vm.personalInfoForm">
                         <form name="vm.personalInfoForm" novalidate>
                             <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="productName">Category</label>
-                                        <select class="form-control" title="Category" selectpicker>
-                                            <option selected>Electronics</option>
-                                            <option>Toys</option>
-                                            <option>Accessories</option>
+                                        <label for="productName">Receiver</label>
+                                        <br>
+                                                <select class="" ng-change="change1(selectedReceiver)" ng-model="selectedReceiver" ng-options="item.label as item.label for item in items">
+
+                                                </select>
                                         </select>
                                     </div>
                                 </div>
@@ -28,31 +43,23 @@
                                     <div class="form-group has-feedback"
                                          ng-class="{'has-error': vm.productInfoForm.productName.$invalid && (vm.productInfoForm.productName.$dirty || vm.productInfoForm.$submitted)}">
                                         <label for="productName">Product name</label>
-                                        <input type="text" class="form-control" id="productName" name="productName" placeholder="Product name" ng-model="vm.productInfo.productName" required>
+                                        <input type="text" class="form-control" id="productName" name="amount" placeholder="Product name" ng-change="change3(amount)" ng-model="amount" required>
                                         <span class="help-block error-block basic-block">Required</span>
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-                    </ba-wizard-step>
-                    <ba-wizard-step title="Currency"  form="vm.addressForm">
-                        <form name="vm.addressForm" novalidate>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="productName">Shipment method</label>
-                                        <select class="form-control" title="Category" selectpicker>
-                                            <option selected>Fast & expensive</option>
-                                            <option>Cheap & free</option>
+                                        <label for="productName">Currency</label>
+                                        <select class="" ng-change="change4(currency)" ng-model="currency" ng-options="item for item in itemsCurrency" ng-show="show" >
+
                                         </select>
                                     </div>
+
                                 </div>
                             </div>
                         </form>
                     </ba-wizard-step>
                     <ba-wizard-step title="Finish">
                         <form class="form-horizontal" name="vm.finishForm" novalidate>
-                            Congratulations! You have successfully filled the form!
+                            {{result}}
                         </form>
                     </ba-wizard-step>
                 </ba-wizard>

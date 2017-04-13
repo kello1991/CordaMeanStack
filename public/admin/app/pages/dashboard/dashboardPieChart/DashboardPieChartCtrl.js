@@ -12,15 +12,27 @@
         var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
         $http.get('http://localhost:3000/admin/balance')
             .then(function(response) {
+
+                if (response.data=={}){
                 balance = response.data;
+
                 $scope.chart = {
                     color: pieColor,
                     description: 'balance',
                     quantity: balance.USD.quantity,
                     token:balance.USD.token,
                     icon: 'money',
+                };
+                }else {
+                    $scope.chart = {
+                        color: pieColor,
+                        description: 'balance',
+                        quantity: "no balance found ",
+                        token:"",
+                        icon: 'money',
+                    };
+
                 }
-                ;
             });
 
         function getRandomArbitrary(min, max) {

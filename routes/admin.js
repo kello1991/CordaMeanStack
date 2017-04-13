@@ -6,13 +6,14 @@ var router = express.Router();
 var bodyparser = require("body-parser");
 var mongoose = require('mongoose');
 var Bank = mongoose.model('bank');
+var Transaction = mongoose.model('transaction');
 var http = require("http");
 var bycrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 var auth = require("./auth.js");
 port = "";
 url = "http://localhost:"+port+"/api/example/";
-
+var bankId="";
 //root route
 router.get('/', function(req, res, next) {
     res.sendFile(req.app.get('admin_path') + 'index.html');
@@ -23,6 +24,15 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.sendFile(req.app.get('admin_path') + 'auth.html');
     console.log(req.path);
+});
+
+//get all transactions
+router.get('/bank/transactions',function(req, res) {
+    Bank.findById(bankId, function(err, bank) {
+        if (err)
+            res.send(err);
+        res.json(bank.transactions);
+    });
 });
 
 //add new node
@@ -67,6 +77,8 @@ router.post('/login',function (req,res) {
                 console.log(token);
                 console.log(bank.port);
                 port=bank.port;
+                bankId=bank._id;
+                console.log("your id is "+bank._id);
                 res.redirect("/admin");
             }else {
                 res.json("");
@@ -80,6 +92,7 @@ router.post('/login',function (req,res) {
 //get a bank
 router.get('/bank/:bankId',function(req, res) {
     Bank.findById(req.params.bankId, function(err, bank) {
+
         if (err)
             res.send(err);
         res.json(bank);
@@ -96,9 +109,19 @@ router.get('/bank',function(req, res) {
 });
 
 //add transaction to bank
-router.put('/bank/:bankId/:transaction',function(req, res) {
-    Bank.findById(req.params.bankId,function(err, bank) {
-        bank.transactions.push(req.params.transaction);
+router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender',function(req, res) {
+    Bank.findOne({"corda_id":req.params.bankId},function(err, bank) {
+        var ligne = {
+            idTran:req.params.transaction,
+            type:req.params.type,
+                amount:req.params.amount,
+            receiver:req.params.receiver,
+            sender:req.params.sender,
+            date:new Date()
+        };
+        console.log(ligne)
+        bank.transactions.push(new Transaction(ligne));
+
         bank.save(function (err) {
             if(err){
                 res.json(err)
@@ -128,14 +151,6 @@ router.put('/bank/:bankId',function(req, res) {
     });
 });
 
-//get all transactions
-router.get('/bank/:bankId/transactions',function(req, res) {
-    Bank.findById(req.params.bankId, function(err, bank) {
-        if (err)
-            res.send(err);
-        res.json(bank.transactions);
-    });
-});
 
 //get the name of the Node
 router.get('/me', function (req, res, next) {
@@ -354,13 +369,14 @@ router.get('/balance', function (req, res, next) {
 });
 
 //issue money to a peer
-router.get('/issue/:peerName/:amount', function (req, res, next) {
+router.get('/issue/:peerName/:amount/:currency', function (req, res, next) {
 
     url = "http://localhost:"+port+"/api/example/";
     var peerName = req.params.peerName;
     var amout = req.params.amount;
+    var currency = req.params.currency;
     console.log(peerName, amout);
-    var demande = "issue/" + peerName + "/" + amout;
+    var demande = "issue/" + peerName + "/" + amout+"/"+currency;
     url += demande;
     var request = http.get(url, function (response) {
         // data is streamed in chunks from the server
@@ -386,6 +402,43 @@ router.get('/issue/:peerName/:amount', function (req, res, next) {
     });
     url = "http://localhost:"+port+"/api/example/";
 });
+
+//Exchange money
+router.get('/exchange/:peerName/:amount', function (req, res, next) {
+
+    url = "http://localhost:"+port+"/api/example/";
+    var peerName = req.params.peerName;
+    var amout = req.params.amount;
+    console.log(peerName, amout);
+    var demande = "exchange/" + peerName + "/" + amout;
+    url += demande;
+    var request = http.get(url, function (response) {
+        // data is streamed in chunks from the server
+        // so we have to handle the "data" event
+        var buffer = "",
+            dataToGet,
+            route;
+
+        response.on("data", function (chunk) {
+            buffer += chunk;
+        });
+
+        response.on("end", function (err) {
+            // finished transferring data
+            // dump the raw data
+            console.log(buffer);
+            console.log("\n");
+            //dataToGet = JSON.parse(buffer);
+            if (err)
+                res.json(err);
+            res.json(buffer);
+        });
+    });
+    url = "http://localhost:"+port+"/api/example/";
+});
+
+
+
 
 //pay a peer
 router.get('/pay/:peerName/:amount', function (req, res, next) {
@@ -558,13 +611,14 @@ router.get('/issuers/:name', function (req, res, next) {
     url = "http://localhost:"+port+"/api/example/";
 });
 //get peer by id
-router.get('/peers/:id', function (req, res, next) {
+router.get('/peers/hash/:id', function (req, res, next) {
 
     url = "http://localhost:10009/api/example/";
     var id = req.params.id;
 
-    var demande = "peers/hash" + id;
+    var demande = "peers/hash/" + id;
     url += demande;
+    console.log(url);
     var request = http.get(url, function (response) {
         // data is streamed in chunks from the server
         // so we have to handle the "data" event

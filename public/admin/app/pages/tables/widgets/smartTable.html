@@ -11,25 +11,19 @@
     <thead>
     <tr class="sortable">
       <th class="table-id" st-sort="id" st-sort-default="true"   style="color: white">Transaction ID</th>
-      <th st-sort="firstName"   style="color: white">Input</th>
-      <th st-sort="lastName"   style="color: white">Output</th>
       <th st-sort="username"   style="color: white">Input party</th>
       <th st-sort="email"   style="color: white">Output party</th>
-      <th st-sort="age"   style="color: white">Commande type</th>
-      <th st-sort="total"   style="color: white">Total value</th>
+      <th st-sort="age"   style="color: white">Command type</th>
+      <th st-sort="total"   style="color: white">Amount</th>
     </tr>
     <tr>
       <th></th>
-      <th><input st-search="firstName" placeholder="Search Input" class="input-sm form-control search-input"
-                 type="search"/></th>
-      <th><input st-search="lastName" placeholder="Search Output" class="input-sm form-control search-input"
-                 type="search"/></th>
       <th><input st-search="username" placeholder="Search Input party" class="input-sm form-control search-input"
                  type="search"/></th>
       <th><input st-search="email" placeholder="Search Output party" class="input-sm form-control search-input" type="search"/>
       </th>
-      <th><input st-search="age" placeholder="Search Commande type" class="input-sm form-control search-input" type="search"/>
-      <th><input st-search="total" placeholder="Search Total value" class="input-sm form-control search-input" type="search"/>
+      <th><input st-search="age" placeholder="Search Command type" class="input-sm form-control search-input" type="search"/>
+      <th><input st-search="total" placeholder="Search Amount" class="input-sm form-control search-input" type="search"/>
       </th>
 
     </tr>
@@ -38,8 +32,6 @@
 
     <tr ng-repeat="item in smartTableData">
       <td class="table-id"   style="color: white">{{item.idTransaction }}</td>
-      <td   style="color: white">{{item.inputi}}</td>
-      <td   style="color: white">{{item.outputi}}</td>
       <td   style="color: white">{{item.inputParty}}</td>
       <td   style="color: white">{{item.outputParty}}</td>
       <td   style="color: white">{{item.commandType}}</td>

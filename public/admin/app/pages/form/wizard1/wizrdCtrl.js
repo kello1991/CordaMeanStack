@@ -8,6 +8,8 @@
   function WizardCtrl($scope) {
    var vm = this;
 
+      console.log ("wizart 2 ctrl");
+   console.log("hello its me ");
     vm.personalInfo = {};
     vm.productInfo = {};
     vm.shipment = {};

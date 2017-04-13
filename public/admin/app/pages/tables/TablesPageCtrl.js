@@ -12,21 +12,21 @@
   function TablesPageCtrl($http,$scope, $filter, editableOptions, editableThemes) {
 
     $scope.smartTablePageSize = 10;
-      $http.get('http://localhost:3000/admin/vault')
+      $http.get('http://localhost:3000/admin/bank/transactions')
           .then(function(response) {
+            console.log(response);
               $scope.smartTableData=[];
+              if(response.data){
               response.data.forEach(function (element) {
                 var ligne ={};
-                ligne.idTransaction=element.ref.txhash;
-                ligne.inputi="input";
-                ligne.outputi="output";
-                ligne.inputParty=element.state.data.amount.token.issuer.party;
-                ligne.outputParty=element.state.data.owner;
-                ligne.commandType="CommandType";
-                ligne.totalValue=element.state.data.amount.quantity;
-                console.log(ligne);
+                ligne.idTransaction=element.idTran;
+                ligne.inputParty=element.sender;
+                ligne.outputParty=element.receiver;
+                ligne.commandType=element.type;
+                ligne.totalValue=element.amount;
                 $scope.smartTableData.push(ligne);
-              });
+              });}
+
 
     $scope.editableTableData = $scope.smartTableData;
           });
