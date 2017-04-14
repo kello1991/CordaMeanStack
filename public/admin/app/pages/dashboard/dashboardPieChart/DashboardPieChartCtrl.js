@@ -12,7 +12,7 @@
         var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
 
 
-/**        $http.get('http://localhost:3000/admin/bank/transactions')
+        $http.get('http://localhost:3000/admin/bank/transactions')
             .then(function(response) {
 
 console.log(response.data);
@@ -22,9 +22,15 @@ console.log(response.data);
         $http.get('http://localhost:3000/admin/balance')
             .then(function(response) {
                 console.log(response.data);
+                var balance=response.data
 
+                if(balance.USD === undefined) {
+                    balance.USD={quantity:0,token:"USD"};
+                }
 
-                balance = response.data;
+                if(balance.EUR === undefined) {
+                    balance.EUR={quantity:0,token:"EUR"};
+                }
 
                 $scope.chart = {
                     color: pieColor,
@@ -37,7 +43,7 @@ console.log(response.data);
                 };
 
             });
-            });*/
+            });
         function getRandomArbitrary(min, max) {
             return Math.random() * (max - min) + min;
         }

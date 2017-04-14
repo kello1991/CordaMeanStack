@@ -11,11 +11,13 @@
   /** @ngInject */
   function TablesPageCtrl($http,$scope, $filter, editableOptions, editableThemes) {
 
+
     $scope.smartTablePageSize = 10;
       $http.get('http://localhost:3000/admin/bank/transactions')
           .then(function(response) {
             console.log(response);
-              $scope.smartTableData=[];
+              $scope.contTableData=[];
+            $scope.smartTableData=[];
               if(response.data){
               response.data.forEach(function (element) {
                 var ligne ={};
@@ -25,11 +27,19 @@
                 ligne.commandType=element.type;
                 ligne.totalValue=element.amount;
                 $scope.smartTableData.push(ligne);
+                if(element.type=="Exchange"){
+                    $scope.contTableData.push(
+                        {
+                            amount:element.amount,
+                            currency:"USD",
+                            eq:element.quantity+" "+element.product});
+                }
               });}
 
 
     $scope.editableTableData = $scope.smartTableData;
-          });
+
+
 
 
 
@@ -67,6 +77,9 @@
     editableOptions.theme = 'bs3';
     editableThemes['bs3'].submitTpl = '<button type="submit" class="btn btn-primary btn-with-icon"><i class="ion-checkmark-round"></i></button>';
     editableThemes['bs3'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-default btn-with-icon"><i class="ion-close-round"></i></button>';
+
+
+          });
   }
 
 })();

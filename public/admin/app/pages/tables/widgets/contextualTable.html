@@ -9,9 +9,9 @@
   <table class="table" st-table="smartTableData">
     <thead>
     <tr class="sortable">
-      <th st-sort="firstName" style="color: white">Issuer/Currency</th>
+      <th st-sort="firstName" style="color: white">Amount</th>
       <th st-sort="lastName" style="color: white">Local currency</th>
-      <th st-sort="username" style="color: white">USD Equiv</th>
+      <th st-sort="username" style="color: white">Equiv currency</th>
     </tr>
     <tr>
       <th><input st-search="firstName" placeholder="Search Issuer/Currency" class="input-sm form-control search-input"
@@ -23,10 +23,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="item in smartTableData">
-      <td style="color: white">{{item.inputi}}</td>
-      <td style="color: white">{{item.outputi}}</td>
-      <td style="color: white">{{item.outputi}}</td>
+    <tr ng-repeat="item in contTableData">
+      <td style="color: white">{{item.amount}}</td>
+      <td style="color: white">{{item.currency}}</td>
+      <td style="color: white">{{item.eq}}</td>
     </tr>
     </tbody>
     <tfoot>
