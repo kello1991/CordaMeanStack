@@ -109,7 +109,7 @@ router.get('/bank',function(req, res) {
 });
 
 //add transaction to bank
-router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender',function(req, res) {
+router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender/:quantity/:product',function(req, res) {
     Bank.findOne({"corda_id":req.params.bankId},function(err, bank) {
         var ligne = {
             idTran:req.params.transaction,
@@ -117,7 +117,9 @@ router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender',function
                 amount:req.params.amount,
             receiver:req.params.receiver,
             sender:req.params.sender,
-            date:new Date().toISOString().replace(/T/, ' ')
+            date:new Date().toISOString().replace(/T/, ' '),
+            quantity:req.params.quantity,
+            product:req.params.product
         };
         console.log(ligne)
         bank.transactions.push(new Transaction(ligne));

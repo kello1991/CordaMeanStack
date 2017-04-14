@@ -9,7 +9,9 @@ var Transaction = new Schema({
     amount:String,
     receiver:String,
     sender:String,
-    date:String
+    date:String,
+    quantity:String,
+    product:String
 });
 var Bank = new Schema();
 Bank.add(

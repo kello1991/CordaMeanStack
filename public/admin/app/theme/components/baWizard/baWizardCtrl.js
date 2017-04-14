@@ -197,6 +197,7 @@
 
 
                 }
+
                 if ($scope.commandType=="Exchange"){
                     $http.get("http://localhost:3000/admin/exchange/"+$scope.selectedReceiver+"/"+$scope.amount)
                         .then(function(response,err) {
@@ -207,8 +208,33 @@
                             }
                             //ex
                             else {
+                                var trid= response.data;
+                                var port=""
+                                if($scope.selectedReceiver=="NodeC"){
+                                    port="10009";
+                                }
+                                if($scope.selectedReceiver=="NodeB"){
+                                    port="10007";
+                                }
+                                if($scope.selectedReceiver=="NodeA"){
+                                    port="10005";
+                                }
+                                var q;
+                                var p;
 
-                                console.log  (response.data);
+                                $http.get("http://localhost:"+port+"/api/example/vault/"+trid)
+                                    .then(function (response,err) {
+                                        if(err){
+                                            console.log(err)
+                                        }else {
+                                             q = response.data.state.data.amount.quantity;
+                                             p=response.data.state.data.amount.token.product;
+                                            console.log (p,q);
+                                        }
+
+                                    }).then(function () {
+
+
 
                                 $http.put("http://localhost:3000/admin/bank/" +
                                     $scope.sender+"/" +
@@ -216,7 +242,8 @@
                                     $scope.commandType+"/"+
                                     $scope.amount+"/"+
                                     $scope.selectedReceiver+"/"+
-                                    $scope.sender)
+                                    $scope.sender+"/"+
+                                    q+"/"+ p)
                                     .success(function (data) {
                                         console.log("saved mongo")
 
@@ -233,7 +260,8 @@
                                         $scope.commandType+"/"+
                                         $scope.amount+"/"+
                                         $scope.selectedReceiver+"/"+
-                                        $scope.sender)
+                                        $scope.sender+"/"+
+                                        q+"/"+ p)
                                         .success(function (data) {
                                             console.log("saved mongo receiver")
 
@@ -242,7 +270,9 @@
                                             console.log("not saved mongo receiver");
                                         });
                                 }
+
                                 $scope.result="Success Excahnge";
+                                });
                             }
                         });
 
