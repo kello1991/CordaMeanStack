@@ -167,7 +167,7 @@
                                     $scope.commandType+"/"+
                                     $scope.amount+"/"+
                                     $scope.selectedReceiver+"/"+
-                                    $scope.sender)
+                                    $scope.sender + "/--/--")
                                     .success(function (data) {
                                         console.log("saved mongo for current")
 
@@ -182,7 +182,7 @@
                                     $scope.commandType+"/"+
                                     $scope.amount+"/"+
                                     $scope.selectedReceiver+"/"+
-                                    $scope.sender)
+                                    $scope.sender + "/--/--")
                                     .success(function (data) {
                                         console.log("saved mongo receiver")
 
@@ -302,7 +302,7 @@
                                     $scope.commandType+"/"+
                                     $scope.amount+"/"+
                                     b+"/"+
-                                    $scope.sender)
+                                    $scope.sender + "/--/--")
                                     .success(function (data) {
                                         console.log("saved mongo")
 
@@ -337,7 +337,7 @@
                                     $scope.commandType+"/"+
                                     $scope.amount+"/"+
                                     $scope.selectedReceiver+"/"+
-                                    $scope.sender)
+                                    $scope.sender + "/--/--")
                                     .success(function (data) {
                                         console.log("saved mongo")
 
@@ -354,7 +354,7 @@
                                         $scope.commandType+"/"+
                                         $scope.amount+"/"+
                                         $scope.selectedReceiver+"/"+
-                                        $scope.sender)
+                                        $scope.sender + "/--/--")
                                         .success(function (data) {
                                             console.log("saved mongo receiver")
 

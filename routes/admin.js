@@ -69,16 +69,17 @@ router.post('/login',function (req,res) {
         if(err){
             res.send(err);
         }
-        if(!bank)
+        if (!bank) {
             res.status(401).json("unauthorized");
+        }
         else {
             if(bycrypt.compareSync(req.body.password,bank.password)){
-                var token = jwt.sign(bank,'s3cr3t');
-                console.log(token);
-                console.log(bank.port);
+                var token = jwt.sign(bank, 'superSecret');
                 port=bank.port;
                 bankId=bank._id;
                 console.log("your id is "+bank._id);
+
+                res.header("token", token);
                 res.redirect("/admin");
             }else {
                 res.json("");
@@ -121,6 +122,10 @@ router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender/:quantity
             quantity:req.params.quantity,
             product:req.params.product
         };
+        if (ligne.quantity === undefined && ligne.product === undefined) {
+            ligne.quantity = "--";
+            ligne.product = "--";
+        }
         console.log(ligne)
         bank.transactions.push(new Transaction(ligne));
 
