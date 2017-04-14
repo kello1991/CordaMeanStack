@@ -117,7 +117,7 @@ router.put('/bank/:bankId/:transaction/:type/:amount/:receiver/:sender',function
                 amount:req.params.amount,
             receiver:req.params.receiver,
             sender:req.params.sender,
-            date:new Date()
+            date:new Date().toISOString().replace(/T/, ' ')
         };
         console.log(ligne)
         bank.transactions.push(new Transaction(ligne));

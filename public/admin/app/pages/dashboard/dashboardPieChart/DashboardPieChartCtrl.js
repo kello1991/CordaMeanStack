@@ -10,31 +10,34 @@
 
         var balance = {};
         var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
-        $http.get('http://localhost:3000/admin/balance')
+
+
+/**        $http.get('http://localhost:3000/admin/bank/transactions')
             .then(function(response) {
 
-                if (response.data=={}){
+console.log(response.data);
+                var nbr =response.data.length;
+                console.log("nbr trans"+ nbr)
+
+        $http.get('http://localhost:3000/admin/balance')
+            .then(function(response) {
+                console.log(response.data);
+
+
                 balance = response.data;
 
                 $scope.chart = {
                     color: pieColor,
-                    description: 'balance',
+                    description: 'BALANCE',
                     quantity: balance.USD.quantity,
                     token:balance.USD.token,
-                    icon: 'money',
+                    quantity1: balance.EUR.quantity,
+                    token1:balance.EUR.token,
+                    nbr:nbr
                 };
-                }else {
-                    $scope.chart = {
-                        color: pieColor,
-                        description: 'balance',
-                        quantity: "no balance found ",
-                        token:"",
-                        icon: 'money',
-                    };
 
-                }
             });
-
+            });*/
         function getRandomArbitrary(min, max) {
             return Math.random() * (max - min) + min;
         }
