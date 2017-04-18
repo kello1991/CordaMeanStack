@@ -70,7 +70,7 @@ router.post('/login',function (req,res) {
             res.send(err);
         }
         if (!bank) {
-            res.status(401).json("unauthorized");
+            res.status(401).redirect("/admin");
         }
         else {
             if(bycrypt.compareSync(req.body.password,bank.password)){
@@ -78,11 +78,9 @@ router.post('/login',function (req,res) {
                 port=bank.port;
                 bankId=bank._id;
                 console.log("your id is "+bank._id);
-
-                res.header("token", token);
                 res.redirect("/admin");
             }else {
-                res.json("");
+                res.status(401).redirect("/admin");
 
             }
         }
